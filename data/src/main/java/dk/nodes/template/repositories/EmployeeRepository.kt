@@ -1,5 +1,6 @@
 package dk.nodes.template.repositories
 
+
 import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.Gson
@@ -25,20 +26,20 @@ class EmployeeRepository@Inject constructor(private val iEmployeeService: Employ
         return mapHeader
     }
 
-   suspend fun getEmployees(): ArrayList<Employee>{
-       var employeeList = ArrayList<Employee>()
-       val response = iEmployeeService.getEmployees(getHeader()).execute()
-       if(response.isSuccessful){
-           val message = response.body()
+    suspend fun getEmployees(): ArrayList<Employee>{
+        var employeeList = ArrayList<Employee>()
+        val response = iEmployeeService.getEmployees(getHeader()).execute()
+        if(response.isSuccessful){
+            val message = response.body()
 
-       if(message !=null){
-           employeeList.addAll(message.employeeList)
-       }
-       }
+            if(message !=null){
+                employeeList.addAll(message.employeeList)
+            }
+        }
 
-       return employeeList
+        return employeeList
 
-   }
+    }
 
     suspend fun getFromId(id: Int): Employee?{
         val response = iEmployeeService.getEmployeesById(getHeader(), id).execute()
