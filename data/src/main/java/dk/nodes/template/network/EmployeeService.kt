@@ -19,5 +19,5 @@ interface EmployeeService {
     @Headers("Content-Type: application/json")
     @PUT("hr/v1/employees/{id}")
     fun sendEmployee(@HeaderMap headers: Map<String, String>,@Path("id") id: Int,
-                     @Body body :String): retrofit2.Call<String>
+                     @Body body :String): Call<String>
 }
