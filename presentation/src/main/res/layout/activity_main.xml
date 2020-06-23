@@ -5,10 +5,8 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:outlineAmbientShadowColor="#9C27B0"
-    android:outlineSpotShadowColor="#2196F3"
+    android:background="#2196F3"
     android:orientation="vertical"
-    android:background="@drawable/gradient_background"
     android:windowSoftInputMode="adjustPan|adjustResize">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -30,7 +28,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="10dp"
-        android:text="List of Employees"
+        android:text="Welcome To the list of employees"
         android:textSize="27sp"
         app:layout_constraintBottom_toTopOf="@+id/rv_employeesdetails"
         app:layout_constraintEnd_toEndOf="parent"

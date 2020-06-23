@@ -48,8 +48,8 @@ class MainActivityViewModel @Inject constructor(
             is Success -> state.copy(message = result.data)
             is Loading<*> -> state.copy(isLoading = true)
             is Fail -> state.copy(
-                    viewError = SingleEvent(ViewErrorController.mapThrowable(result.throwable))
-                            isLoading = false
+                    viewError = SingleEvent(ViewErrorController.mapThrowable(result.throwable)),
+                    isLoading = false
             )
 
             else -> MainActivityViewState()
@@ -66,7 +66,7 @@ class MainActivityViewModel @Inject constructor(
 
     private fun mapResultEmp(result: CompleteResult<ArrayList<Employee>>): MainActivityViewState {
         return when (result) {
-            is Success -> state.copy(employeeList = result.data)
+            is Success -> state.copy(employeesList = result.data)
             is Loading<*> -> state.copy(isLoading = true)
             is Fail -> state.copy(
                     viewError = SingleEvent(ViewErrorController.mapThrowable(result.throwable)),
@@ -89,7 +89,8 @@ class MainActivityViewModel @Inject constructor(
             is Success -> state.copy(sectionsList = result.data)
             is Loading<*> -> state.copy(isLoading = true)
             is Fail -> state.copy(
-                    viewError = SingleEvent(ViewErrorController.mapThrowable(result.throwable))
+                    viewError = SingleEvent(ViewErrorController.mapThrowable(result.throwable)),
+                    isLoading = false
             )
             else -> MainActivityViewState()
         }
@@ -97,26 +98,45 @@ class MainActivityViewModel @Inject constructor(
 
     fun getFromId(id: Int) = viewModelScope.launch(Dispatchers.Main) {
         val result = withContext(Dispatchers.IO) { getFromIDInt.invoke(id) }
-        state = mapResultSec(result)
+        state = mapResult(result)
 
         fun sendEmployee(employee: EditEmployee) = viewModelScope.launch(Dispatchers.Main) {
             val result = withContext(Dispatchers.IO) { sendEmployeeInt.invoke(employee) }
             state = mapSend(result)
         }
     }
-        private fun mapSend(result: CompleteResult<Unit?>): MainActivityViewState {
-            return when (result) {
-                is Fail -> state.copy(
-                        viewError = SingleEvent(ViewErrorController.mapThrowable(result.throwable)),
-                        isLoading = false
-                )
-                else -> MainActivityViewState()
-            }
 
-
+    private fun mapSend(result: CompleteResult<Unit?>): MainActivityViewState {
+        return when (result) {
+            is Fail -> state.copy(
+                    viewError = SingleEvent(ViewErrorController.mapThrowable(result.throwable)),
+                    isLoading = false
+            )
+            else -> MainActivityViewState()
         }
 
 
+    }
 
+    fun sendEmployee(employee: EditEmployee) = viewModelScope.launch(Dispatchers.Main) {
+        val result = withContext(Dispatchers.IO) { sendEmployeeInt.invoke(employee) }
+        state = mapSend(result)
+
+    }
+
+
+    private fun mapResult(result: CompleteResult<Employee?>): MainActivityViewState {
+        return when (result) {
+            is Success -> state.copy(employee = result.data)
+            is Loading<*> -> state.copy(isLoading = true)
+            is Fail -> state.copy(
+                    viewError = SingleEvent(ViewErrorController.mapThrowable(result.throwable)),
+                    isLoading = false
+            )
+            else -> MainActivityViewState()
+        }
+
+
+    }
 }
 

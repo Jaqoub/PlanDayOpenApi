@@ -20,7 +20,7 @@ import dk.nodes.template.presentation.extensions.observeNonNull
 class MainActivity : BaseActivity() {
 
 
-    private val viewModel: by viewModel<MainActivityViewModel>()
+    private val viewModel by viewModel<MainActivityViewModel>()
     private var adapter: EmployeeAdapter? = null
     private var employeeList: ArrayList<Employee>? = null
     lateinit var editEmployee: Intent
